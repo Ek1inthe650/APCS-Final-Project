@@ -1,0 +1,98 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+/**
+ * Write a description of class Puzzle here.
+ *
+ * @author (your name)
+ * @version (a version number or a date)
+ */
+public class Puzzle
+{
+    private int[][] puzzleGrid = new int[2][3];
+    private int target;
+    Scanner sc = new Scanner(System.in);
+    
+    public Puzzle()
+    {
+        target = (int) (Math.random() * 300) + 1;
+        puzzleGrid[0][0] = (int) (Math.random() * 3) + 1;
+        puzzleGrid[0][1] = (int) (Math.random() * 3) + 1 + puzzleGrid[0][0];
+        puzzleGrid[0][2] = (int) (Math.random() * 6) + 1 + puzzleGrid[0][1];
+        puzzleGrid[1][0] = (int) (Math.random() * 6) + 1 + puzzleGrid[0][2];
+        puzzleGrid[1][1] = (int) (Math.random() * 6) + 1 + puzzleGrid[1][0];
+        puzzleGrid[1][2] = (int) (Math.random() * 6) + 1 + puzzleGrid[1][1];
+    }
+    public int calculate(int row1, int col1, String op, int row2, int col2)
+    {
+        if (op.equals("+"))
+        {
+            return puzzleGrid[row1][col1] + puzzleGrid[row2][col2];
+        }
+        else if (op.equals("-"))
+        {
+            return puzzleGrid[row1][col1] - puzzleGrid[row2][col2];
+        }
+        else if (op.equals("*"))
+        {
+            return puzzleGrid[row1][col1] * puzzleGrid[row2][col2];
+        }
+        else if (op.equals("/"))
+        {
+            return puzzleGrid[row1][col1] / puzzleGrid[row2][col2];
+        }
+        else if (op.equals("%"))
+        {
+            return puzzleGrid[row1][col1] % puzzleGrid[row2][col2];
+        }
+        else
+        {
+            return -1;
+        }
+    }
+    public void print()
+    {
+        for (int i = 0; i < puzzleGrid.length; i++)
+        {
+            for (int j = 0; j< puzzleGrid[0].length; j++)
+            {
+                System.out.print(puzzleGrid[i][j] + " ");
+            }
+            System.out.println("");
+        }
+        System.out.println(target);
+    }
+    public void playerInput()
+    {
+        System.out.print("    Enter row: ");
+        int row1 = sc.nextInt();
+        System.out.print("    Enter col: ");
+        int col1 = sc.nextInt();
+        System.out.print("    Enter operation (+, -, *, /, %): ");
+        String op = sc.next();
+        System.out.print("    Enter row: ");
+        int row2 = sc.nextInt();
+        System.out.print("    Enter col: ");
+        int col2 = sc.nextInt();
+        System.out.println("");
+        int resultant = calculate(row1,col1,op,row2,col2);
+        if (resultant > 0)
+        {
+            puzzleGrid[row1][col1] = -1;
+            puzzleGrid[row2][col2] = resultant;
+        }
+    }
+    public void playPuzzle()
+    {
+        while (target != puzzleGrid[0][0] && target != puzzleGrid[0][1] && target != puzzleGrid[0][2] && target != puzzleGrid[1][0] && target != puzzleGrid[1][1] && target != puzzleGrid[1][2])
+        {
+            print();
+            playerInput();
+        }
+        print();
+    }
+    public static void main(String[] args)
+    {
+        Puzzle test = new Puzzle();
+        test.play();
+    }
+}
