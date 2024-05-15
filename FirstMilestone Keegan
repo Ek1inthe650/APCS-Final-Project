@@ -93,6 +93,6 @@ public class Puzzle
     public static void main(String[] args)
     {
         Puzzle test = new Puzzle();
-        test.play();
+        test.playPuzzle();
     }
 }
