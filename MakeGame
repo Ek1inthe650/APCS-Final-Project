@@ -1,0 +1,122 @@
+
+/**
+ * Write a description of class startGame here.
+ *
+ * @author (your name)
+ * @version (a version number or a date)
+ */
+import javax.swing.*;
+import java.awt.Color;
+import java.awt.event.*;
+import java.awt.*;
+import javax.swing.Timer;
+
+
+public class MakeGame
+{
+    private JFrame f = new JFrame();
+    JLabel timerLabel;
+    private Timer timer;
+    private int secondsLeft;
+    Button button = new Button();
+    
+    public MakeGame()
+    {
+        
+        f.setSize(620,500);
+        f.setLayout(null);
+        f.setVisible(true);
+        timerLabel = new JLabel("60");
+        timerLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        timerLabel.setBounds(560,10,200,90);
+        f.add(timerLabel);
+        
+        startTimer();
+    }
+    
+    
+    public void makeNumbers()
+    {
+        Numbers numArray = new Numbers();
+        int[][] arr = new int[2][3];
+        arr = numArray.getNumbers();
+        Button num1 = new Button(arr[0][0],10,100,100,60);
+        Button num2 = new Button(arr[0][1],210,100,100,60);
+        Button num3 = new Button(arr[0][2],410,100,100,60);
+        Button num4 = new Button(arr[1][0],10,200,100,60);
+        Button num5 = new Button(arr[1][1],210,200,100,60);
+        Button num6 = new Button(arr[1][2],410,200,100,60);
+        
+        Button[] nums = {num1,num2,num3,num4,num5,num6};
+        
+        
+        
+        for (Button b: nums)
+        {
+            f.add(b.getB());
+        }
+    }
+    
+    private void startTimer() {
+        secondsLeft = 60;
+
+        
+        timer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                secondsLeft--;
+
+                
+                timerLabel.setText(String.valueOf(secondsLeft));
+
+                
+                if (secondsLeft == 0) {
+                    timer.stop();
+
+                }
+            }
+        });
+
+        
+        timer.start();
+    }
+    
+    
+    
+    public void makeOperations()
+    {
+        
+        
+        
+        Button plus = new Button("+",10,400,100,60,false);
+        Button minus = new Button("-",110,400,100,60,false);
+        Button times = new Button("x",210,400,100,60,false);
+        Button divide = new Button("/",310,400,100,60,false);
+        Button mod = new Button("%",410,400,100,60,false);
+        Button undo = new Button("↻",510,400,100,60,true);
+        Button[] operations = {plus,minus,times,divide,mod,undo};
+        
+        
+        
+        for (Button b: operations)
+        {
+            f.add(b.getB());
+        }
+        
+        
+        
+        
+        
+    }
+    
+    
+    public void playGame()
+    {
+       while (secondsLeft > 0)
+       {
+           Operations ops = new Operations();
+           
+       }
+    }
+}
