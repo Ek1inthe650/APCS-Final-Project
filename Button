@@ -1,0 +1,92 @@
+
+/**
+ * Write a description of class Graphics here.
+ *
+ * @author (your name)
+ * @version (a version number or a date)
+ */
+import javax.swing.*;
+import java.awt.Color;
+
+import java.awt.event.*;
+
+public class Button implements ActionListener{ 
+
+    private JButton b;
+    private int value;
+    private String label;
+    private boolean isUndo;
+    private boolean isNum;
+    private boolean isGreen = false;
+    private boolean oneSelected = false;
+    private boolean twoSelected = false;
+    private int num1;
+    private int num2;
+    public Button(){}
+    
+    public Button(String l,int x,int y, int width, int height,boolean u)
+    {
+        isNum = false;
+        isUndo=u;
+        b=new JButton(l);
+        b.setBounds(x,y,width, height);
+        b.addActionListener(this);
+        label=l;
+    }
+     public Button(int val,int x,int y, int width, int height)
+    {
+        isNum = true;
+        value = val;
+        b=new JButton(""+val);
+        b.setBounds(x,y,width, height);
+        b.addActionListener(this);
+        
+    }
+    
+    public int getVal()
+    {
+        return value;
+    }
+    public int getNum1()
+    {
+        return num1;
+    }
+    public int getNum2()
+    {
+        return num2;
+    }
+    public JButton getB()
+    {
+        return b;
+    }
+    
+    
+
+     public void actionPerformed(ActionEvent e) {
+         if (isGreen == false && !isUndo)
+         {
+         b.setBackground(Color.GREEN);
+         b.setOpaque(true);
+         isGreen = true;
+        }
+        else
+        {
+            b.setOpaque(false);
+         isGreen = false;
+        }
+        
+        if (isNum)
+        {
+            if (oneSelected == false)
+            {
+                num1 = value;
+                oneSelected = true;
+            }
+            else if (twoSelected == false)
+            {
+                num2 = value;
+                twoSelected = true;
+            }
+        }
+        }
+    }
