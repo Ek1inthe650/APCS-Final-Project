@@ -18,10 +18,12 @@ public class Button implements ActionListener{
     private boolean isUndo;
     private boolean isNum;
     private boolean isGreen = false;
-    private boolean oneSelected = false;
-    private boolean twoSelected = false;
-    private int num1;
-    private int num2;
+    private static boolean oneSelected = false;
+    private static boolean twoSelected = false;
+    private static int numSelected = 0;
+    private static int num1;
+    private static int num2;
+    private static String op;
     public Button(){}
     
     public Button(String l,int x,int y, int width, int height,boolean u)
@@ -47,6 +49,10 @@ public class Button implements ActionListener{
     {
         return value;
     }
+    public String getOp()
+    {
+        return op;
+    }
     public int getNum1()
     {
         return num1;
@@ -63,16 +69,51 @@ public class Button implements ActionListener{
     
 
      public void actionPerformed(ActionEvent e) {
-         if (isGreen == false && !isUndo)
-         {
-         b.setBackground(Color.GREEN);
-         b.setOpaque(true);
-         isGreen = true;
-        }
-        else
+        
+        
+        if (numSelected == 0 && isNum)
         {
-            b.setOpaque(false);
+            b.setBackground(Color.GREEN);
+            b.setOpaque(true);
+            isGreen = true;
+            numSelected++;
+        }
+        else if (isGreen == true) 
+        {
+            
+         b.setOpaque(false);
          isGreen = false;
+         numSelected--;
+        }
+        
+        if (numSelected == 1 && !isNum)
+        {
+            b.setBackground(Color.GREEN);
+            b.setOpaque(true);
+            isGreen = true;
+            numSelected++;
+        }
+        else if (isGreen == true) 
+        {
+            
+         b.setOpaque(false);
+         isGreen = false;
+         numSelected--;
+        }
+        
+        if (numSelected == 2 && isNum)
+        {
+            b.setBackground(Color.GREEN);
+            b.setOpaque(true);
+            isGreen = true;
+            numSelected++;
+        }
+        else if (isGreen == true) 
+        {
+            
+         b.setOpaque(false);
+         isGreen = false;
+         numSelected--;
         }
         
         if (isNum)
@@ -87,6 +128,17 @@ public class Button implements ActionListener{
                 num2 = value;
                 twoSelected = true;
             }
+        }
+        
+        if (value == num1)
+        {
+            num1 = 0;
+            oneSelected = false;
+        }
+        
+        if (!isNum)
+        {
+            op = label;
         }
         }
     }
