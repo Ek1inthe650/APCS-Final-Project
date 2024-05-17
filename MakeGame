@@ -18,7 +18,10 @@ public class MakeGame
     JLabel timerLabel;
     private Timer timer;
     private int secondsLeft;
-    Button button = new Button();
+    private Button button = new Button();
+    private int num1;
+    private int num2;
+    private String oper;
     
     public MakeGame()
     {
@@ -111,12 +114,12 @@ public class MakeGame
     }
     
     
-    public void playGame()
+    public void doOperation()
     {
-       while (secondsLeft > 0)
-       {
            Operations ops = new Operations();
-           
-       }
+           num1 = button.getNum1();
+           num2 = button.getNum2();
+           oper = button.getOp();
+       
     }
 }
