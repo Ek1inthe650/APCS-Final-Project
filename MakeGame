@@ -24,13 +24,15 @@ public class MakeGame
     private int opNum2;
     private String oper;
     
-    public MakeGame()
+    public MakeGame(){}
+    
+    public MakeGame(String start)
     {
         
         f.setSize(620,500);
         f.setLayout(null);
         f.setVisible(true);
-        timerLabel = new JLabel("60");
+        timerLabel = new JLabel(start);
         timerLabel.setFont(new Font("Arial", Font.BOLD, 24));
         timerLabel.setBounds(560,10,200,90);
         f.add(timerLabel);
@@ -117,41 +119,39 @@ public class MakeGame
     
     public void doOperation()
     {
+        Button n1 = button.getNum1();
+        Button n2 = button.getNum2();
         Operations ops = new Operations();
-        opNum1 = button.getNum1();
-        opNum2 = button.getNum2();
+        opNum1 = n1.getVal();
+        opNum2 = n2.getVal();
         oper = button.getOp();
-        int newValue;
+        int newValue = 0;
         int secondButtonRow;
         int secondButtonCol;
         if (oper.equals("+"))
         {
-            newValue = Operations.add(num1,num2);
+            newValue = Operations.add(opNum1,opNum2);
         }
         else if (oper.equals("-"))
         {
-            newValue = Operations.subtract(num1,num2);
+            newValue = Operations.subtract(opNum1,opNum2);
         }
         else if (oper.equals("*"))
         {
-            newValue = Operations.multiply(num1,num2);
+            newValue = Operations.multiply(opNum1,opNum2);
         }
         else if (oper.equals("/"))
         {
-            newValue = Operations.divide(num1,num2);
+            newValue = Operations.divide(opNum1,opNum2);
         }
         else if (oper.equals("%"))
         {
-            newValue = Operations.mod(num1,num2);
-        }
-        else
-        {
-            return -1;
+            newValue = Operations.mod(opNum1,opNum2);
         }
         
-        if(num2 ==
-        num1.getB().setVisible(false);
-        num2.getB().setVisible(false);
-        Button newNum = new Button(newValue,,,100,60);
+        
+        n1.getB().setVisible(false);
+        n2.getB().setVisible(false);
+        Button newNum = new Button(newValue,n1.getX(),n2.getY(),100,60);
     }
 }
