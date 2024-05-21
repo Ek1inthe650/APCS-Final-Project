@@ -117,9 +117,41 @@ public class MakeGame
     public void doOperation()
     {
            Operations ops = new Operations();
-           num1 = button.getNum1();
-           num2 = button.getNum2();
-           oper = button.getOp();
+        opNum1 = button.getNum1();
+        opNum2 = button.getNum2();
+        oper = button.getOp();
+        int newValue;
+        int secondButtonRow;
+        int secondButtonCol;
+        if (oper.equals("+"))
+        {
+            newValue = Operations.add(num1,num2);
+        }
+        else if (oper.equals("-"))
+        {
+            newValue = Operations.subtract(num1,num2);
+        }
+        else if (oper.equals("*"))
+        {
+            newValue = Operations.multiply(num1,num2);
+        }
+        else if (oper.equals("/"))
+        {
+            newValue = Operations.divide(num1,num2);
+        }
+        else if (oper.equals("%"))
+        {
+            newValue = Operations.mod(num1,num2);
+        }
+        else
+        {
+            return -1;
+        }
+        
+        if(num2 ==
+        num1.getB().setVisible(false);
+        num2.getB().setVisible(false);
+        Button newNum = new Button(newValue,,,100,60);
        
     }
 }
