@@ -1,4 +1,5 @@
 
+
 /**
  * Write a description of class startGame here.
  *
@@ -19,8 +20,8 @@ public class MakeGame
     private Timer timer;
     private int secondsLeft;
     private Button button = new Button();
-    private int num1;
-    private int num2;
+    private int opNum1;
+    private int opNum2;
     private String oper;
     
     public MakeGame()
@@ -43,14 +44,14 @@ public class MakeGame
         Numbers numArray = new Numbers();
         int[][] arr = new int[2][3];
         arr = numArray.getNumbers();
-        Button num1 = new Button(arr[0][0],10,100,100,60);
-        Button num2 = new Button(arr[0][1],210,100,100,60);
-        Button num3 = new Button(arr[0][2],410,100,100,60);
-        Button num4 = new Button(arr[1][0],10,200,100,60);
-        Button num5 = new Button(arr[1][1],210,200,100,60);
-        Button num6 = new Button(arr[1][2],410,200,100,60);
+        Button b1 = new Button(arr[0][0],10,100,100,60);
+        Button b2 = new Button(arr[0][1],210,100,100,60);
+        Button b3 = new Button(arr[0][2],410,100,100,60);
+        Button b4 = new Button(arr[1][0],10,200,100,60);
+        Button b5 = new Button(arr[1][1],210,200,100,60);
+        Button b6 = new Button(arr[1][2],410,200,100,60);
         
-        Button[] nums = {num1,num2,num3,num4,num5,num6};
+        Button[] nums = {b1,b2,b3,b4,b5,b6};
         
         
         
@@ -116,7 +117,7 @@ public class MakeGame
     
     public void doOperation()
     {
-           Operations ops = new Operations();
+        Operations ops = new Operations();
         opNum1 = button.getNum1();
         opNum2 = button.getNum2();
         oper = button.getOp();
@@ -152,6 +153,5 @@ public class MakeGame
         num1.getB().setVisible(false);
         num2.getB().setVisible(false);
         Button newNum = new Button(newValue,,,100,60);
-       
     }
 }
