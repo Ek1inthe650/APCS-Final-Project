@@ -22,9 +22,13 @@ public class Button implements ActionListener{
     private static boolean twoSelected = false;
     private static boolean opSelected = false;
     private static int numSelected = 0;
-    private static int num1;
-    private static int num2;
+    private static Button num1;
+    private static Button num2;
     private static String op;
+    private int xVal;
+    private int yVal;
+    MakeGame game = new MakeGame();
+    
     public Button(){}
     
     public Button(String l,int x,int y, int width, int height,boolean u)
@@ -35,6 +39,8 @@ public class Button implements ActionListener{
         b.setBounds(x,y,width, height);
         b.addActionListener(this);
         label=l;
+        xVal = x;
+        yVal = y;
     }
      public Button(int val,int x,int y, int width, int height)
     {
@@ -54,11 +60,11 @@ public class Button implements ActionListener{
     {
         return op;
     }
-    public int getNum1()
+    public Button getNum1()
     {
         return num1;
     }
-    public int getNum2()
+    public Button getNum2()
     {
         return num2;
     }
@@ -66,11 +72,20 @@ public class Button implements ActionListener{
     {
         return b;
     }
+    public int getX()
+    {
+        return xVal;
+    }
+    public int getY()
+    {
+        return yVal;
+    }
     
     
 
      public void actionPerformed(ActionEvent e) {
         
+         
          if (isGreen == false && !isUndo && numSelected == 0 && isNum)
          {
          b.setBackground(Color.GREEN);
@@ -90,6 +105,7 @@ public class Button implements ActionListener{
          b.setBackground(Color.GREEN);
          b.setOpaque(true);
          isGreen = true;
+         game.doOperation();
          numSelected++;
         }
         else if (isGreen == true) 
@@ -104,21 +120,21 @@ public class Button implements ActionListener{
         
         if (isNum)
         {
-            if (oneSelected == false && numSelected == 0)
+            if (oneSelected == false)
             {
-                num1 = value;
+                num1 = this;
                 oneSelected = true;
             }
-            else if (twoSelected == false && numSelected == 2)
+            else if (twoSelected == false)
             {
-                num2 = value;
+                num2 = this;
                 twoSelected = true;
             }
         }
         
-        if (value == num1)
+        if (value == num1.getVal())
         {
-            num1 = 0;
+
             oneSelected = false;
         }
         
