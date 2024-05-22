@@ -14,7 +14,7 @@ import javax.swing.Timer;
 public class EndScreen implements ActionListener
 {
     private JFrame endScreen;
-    private JButton start;
+    private JButton restart;
     private JLabel text;
     
     public EndScreen()
@@ -28,12 +28,17 @@ public class EndScreen implements ActionListener
         
         text = new JLabel("Game Over");
         text.setFont(new Font("Poppins", Font.BOLD, 48));
-        text.setBounds(120, 50, 500,200);
+        text.setBounds(160, 25, 500,200);
         endScreen.add(text);
         text = new JLabel("Time: " + time);
         text.setFont(new Font("Poppins", Font.BOLD, 48));
-        text.setBounds(120, 200, 500,200);
+        text.setBounds(180, 100, 500,200);
         endScreen.add(text);
+        
+        restart = new JButton("Restart");
+        restart.setBounds(160, 250, 300,200);
+        restart.addActionListener(this);
+        endScreen.add(restart);
     }
     
     
