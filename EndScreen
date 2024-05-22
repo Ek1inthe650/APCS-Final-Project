@@ -23,8 +23,8 @@ public class EndScreen implements ActionListener
         endScreen.setSize(620,500);
         endScreen.setLayout(null);
         endScreen.setVisible(true);
+        int time = MakeGame.getTime();
         
-        int time = (int) (Math.random() * 30) + 1;
         
         text = new JLabel("Game Over");
         text.setFont(new Font("Poppins", Font.BOLD, 48));
@@ -32,15 +32,14 @@ public class EndScreen implements ActionListener
         endScreen.add(text);
         text = new JLabel("Time: " + time);
         text.setFont(new Font("Poppins", Font.BOLD, 48));
-        text.setBounds(120, 50, 500,200);
+        text.setBounds(120, 200, 500,200);
         endScreen.add(text);
     }
     
     
     public void actionPerformed(ActionEvent e) 
     {
-        RunGame r = new RunGame();
-        r.run();
+        StartScreen start = new StartScreen();
         endScreen.setVisible(false);
 
     }
