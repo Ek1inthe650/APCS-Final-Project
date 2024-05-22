@@ -13,34 +13,59 @@ import java.awt.*;
 import javax.swing.Timer;
 
 
-public class MakeGame
+public class MakeGame implements ActionListener 
 {
     private JFrame f = new JFrame();
     JLabel timerLabel;
     private Timer timer;
-    private int secondsLeft;
+    private static int seconds;
     private Button button = new Button();
     private int opNum1;
     private int opNum2;
     private String oper;
+    private JLabel target;
+    private int targetNum;
     
-    public MakeGame(){}
     
-    public MakeGame(String start)
+    public MakeGame()
     {
         
         f.setSize(620,500);
         f.setLayout(null);
         f.setVisible(true);
-        timerLabel = new JLabel(start);
+        timerLabel = new JLabel();
         timerLabel.setFont(new Font("Arial", Font.BOLD, 24));
         timerLabel.setBounds(560,10,200,90);
         f.add(timerLabel);
-        
+        JButton calc = new JButton("=");
+        calc.setBounds(10,30,100,60);
+        calc.addActionListener(this);
+        f.add(calc);
         startTimer();
+        
+        
+        
+        
+        
+
+        
     }
     
+    public void actionPerformed(ActionEvent e) 
+    {
+        int result = doOperation();
+        button.reset();
+        if (result == targetNum)
+        {
+            EndScreen end = new EndScreen();
+            f.setVisible(false);
+        }
+    }
     
+    public static int getTime()
+    {
+        return seconds;
+    }
     public void makeNumbers()
     {
         Numbers numArray = new Numbers();
@@ -55,8 +80,11 @@ public class MakeGame
         
         Button[] nums = {b1,b2,b3,b4,b5,b6};
         
-        
-        
+        targetNum = numArray.getTarget();
+        target = new JLabel(""+targetNum);
+        target.setFont(new Font("Arial", Font.BOLD, 24));
+        target.setBounds(290,10,200,90);
+        f.add(target);
         for (Button b: nums)
         {
             f.add(b.getB());
@@ -64,23 +92,20 @@ public class MakeGame
     }
     
     private void startTimer() {
-        secondsLeft = 60;
+        seconds = 0;
 
         
         timer = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 
-                secondsLeft--;
+                seconds++;
 
                 
-                timerLabel.setText(String.valueOf(secondsLeft));
+                timerLabel.setText(String.valueOf(seconds));
 
                 
-                if (secondsLeft == 0) {
-                    timer.stop();
-
-                }
+                
             }
         });
 
@@ -97,7 +122,7 @@ public class MakeGame
         
         Button plus = new Button("+",10,400,100,60,false);
         Button minus = new Button("-",110,400,100,60,false);
-        Button times = new Button("x",210,400,100,60,false);
+        Button times = new Button("*",210,400,100,60,false);
         Button divide = new Button("/",310,400,100,60,false);
         Button mod = new Button("%",410,400,100,60,false);
         Button undo = new Button("↻",510,400,100,60,true);
@@ -117,7 +142,7 @@ public class MakeGame
     }
     
     
-    public void doOperation()
+    public int doOperation()
     {
         Button n1 = button.getNum1();
         Button n2 = button.getNum2();
@@ -152,6 +177,8 @@ public class MakeGame
         
         n1.getB().setVisible(false);
         n2.getB().setVisible(false);
-        Button newNum = new Button(newValue,n1.getX(),n2.getY(),100,60);
+        Button newNum = new Button(newValue,n2.getX(),n2.getY(),100,60);
+        f.add(newNum.getB());
+        return newValue;
     }
 }
