@@ -1,0 +1,48 @@
+
+
+/**
+ * Write a description of class StartScreen here.
+ *
+ * @author (your name)
+ * @version (a version number or a date)
+ */
+import javax.swing.*;
+import java.awt.Color;
+import java.awt.event.*;
+import java.awt.*;
+import javax.swing.Timer;
+public class EndScreen implements ActionListener
+{
+    private JFrame endScreen;
+    private JButton start;
+    private JLabel text;
+    
+    public EndScreen()
+    {
+        endScreen = new JFrame();
+        endScreen.setSize(620,500);
+        endScreen.setLayout(null);
+        endScreen.setVisible(true);
+        
+        int time = (int) (Math.random() * 30) + 1;
+        
+        text = new JLabel("Game Over");
+        text.setFont(new Font("Poppins", Font.BOLD, 48));
+        text.setBounds(120, 50, 500,200);
+        endScreen.add(text);
+        text = new JLabel("Time: " + time);
+        text.setFont(new Font("Poppins", Font.BOLD, 48));
+        text.setBounds(120, 50, 500,200);
+        endScreen.add(text);
+    }
+    
+    
+    public void actionPerformed(ActionEvent e) 
+    {
+        RunGame r = new RunGame();
+        r.run();
+        endScreen.setVisible(false);
+
+    }
+    
+}
