@@ -1,0 +1,37 @@
+
+/**
+ * Write a description of class Numbers here.
+ *
+ * @author (your name)
+ * @version (a version number or a date)
+ */
+public class Numbers
+{
+    private int[][] puzzleGrid = new int[2][3];
+    private int target;
+    
+    
+    public Numbers()
+    {
+        target = (int) (Math.random() * 300) + 1;
+        puzzleGrid[0][0] = (int) (Math.random() * 3) + 1;
+        puzzleGrid[0][1] = (int) (Math.random() * 3) + 1 + puzzleGrid[0][0];
+        puzzleGrid[0][2] = (int) (Math.random() * 6) + 1 + puzzleGrid[0][1];
+        puzzleGrid[1][0] = (int) (Math.random() * 6) + 1 + puzzleGrid[0][2];
+        puzzleGrid[1][1] = (int) (Math.random() * 6) + 1 + puzzleGrid[1][0];
+        puzzleGrid[1][2] = (int) (Math.random() * 6) + 1 + puzzleGrid[1][1];
+    }
+    public int[][] getNumbers()
+    {
+        return puzzleGrid;
+    }
+    public int getTarget()
+    {
+        return target;
+    }
+    
+   
+    
+    
+}
+
