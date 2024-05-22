@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.awt.Color;
 
 import java.awt.event.*;
+import java.util.ArrayList;
 
 public class Button implements ActionListener{ 
 
@@ -27,7 +28,8 @@ public class Button implements ActionListener{
     private static String op;
     private int xVal;
     private int yVal;
-    MakeGame game = new MakeGame();
+    private static ArrayList<Button> allB = new ArrayList<Button>();
+    
     
     public Button(){}
     
@@ -41,6 +43,7 @@ public class Button implements ActionListener{
         label=l;
         xVal = x;
         yVal = y;
+        allB.add(this);
     }
      public Button(int val,int x,int y, int width, int height)
     {
@@ -49,9 +52,14 @@ public class Button implements ActionListener{
         b=new JButton(""+val);
         b.setBounds(x,y,width, height);
         b.addActionListener(this);
-        
+        xVal = x;
+        yVal = y;
     }
     
+    public void setGreen()
+    {
+        isGreen = false;
+    }
     public int getVal()
     {
         return value;
@@ -81,6 +89,24 @@ public class Button implements ActionListener{
         return yVal;
     }
     
+    public void reset()
+    {
+        numSelected = 0;
+        oneSelected = false;
+        twoSelected = false;
+        num1 = null;
+        num2 = null;
+        opSelected = false;
+        op = null;
+        for (Button j : allB)
+        {
+            j.getB().setBackground(null);
+            j.setGreen();
+            
+        }
+        
+    }
+    
     
 
      public void actionPerformed(ActionEvent e) {
@@ -92,6 +118,8 @@ public class Button implements ActionListener{
          b.setOpaque(true);
          isGreen = true;
          numSelected++;
+         num1 = this;
+         oneSelected = true;
         }
         else if (isGreen == false && !isUndo && numSelected == 1 && !isNum)
          {
@@ -99,14 +127,16 @@ public class Button implements ActionListener{
          b.setOpaque(true);
          isGreen = true;
          numSelected++;
+         
         }
         else if (isGreen == false && !isUndo && numSelected == 2 && isNum)
          {
          b.setBackground(Color.GREEN);
          b.setOpaque(true);
          isGreen = true;
-         game.doOperation();
          numSelected++;
+         num2 = this;
+         twoSelected = true;
         }
         else if (isGreen == true) 
         {
@@ -118,23 +148,10 @@ public class Button implements ActionListener{
         
         
         
-        if (isNum)
-        {
-            if (oneSelected == false)
-            {
-                num1 = this;
-                oneSelected = true;
-            }
-            else if (twoSelected == false)
-            {
-                num2 = this;
-                twoSelected = true;
-            }
-        }
+    
         
         if (value == num1.getVal())
         {
-
             oneSelected = false;
         }
         
