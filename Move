@@ -1,0 +1,32 @@
+
+/**
+ * Write a description of class Move here.
+ *
+ * @author (your name)
+ * @version (a version number or a date)
+ */
+public class Move
+{
+    private Button firstNum;
+    private Button secondNum;
+    private Button resultantNum;
+    
+    public Move(Button firstNum, Button secondNum, Button resultantNum)
+    {
+        this.firstNum = firstNum;
+        this.secondNum = secondNum;
+        this.resultantNum = resultantNum;
+    }
+    public Button getFirstButton()
+    {
+        return firstNum;
+    }
+    public Button getSecondButton()
+    {
+        return secondNum;
+    }
+    public Button getResultantNum()
+    {
+        return resultantNum;
+    }
+}
