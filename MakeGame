@@ -11,6 +11,7 @@ import java.awt.Color;
 import java.awt.event.*;
 import java.awt.*;
 import javax.swing.Timer;
+import java.util.Stack;
 
 
 public class MakeGame implements ActionListener 
@@ -25,11 +26,12 @@ public class MakeGame implements ActionListener
     private String oper;
     private JLabel target;
     private int targetNum;
+    private Stack<Move> operationNumsHistory = new Stack<Move>();
+    private Move currentMove;
     
     
-    public MakeGame()
+    public MakeGame(boolean newTimer)
     {
-        
         f.setSize(620,500);
         f.setLayout(null);
         f.setVisible(true);
@@ -41,14 +43,19 @@ public class MakeGame implements ActionListener
         calc.setBounds(10,30,100,60);
         calc.addActionListener(this);
         f.add(calc);
+        
+        if (newTimer)
+        {
+            timer = new Timer(1000, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) 
+                {
+                    seconds++;
+                    timerLabel.setText(String.valueOf(seconds));
+                }
+        });
+        }
         startTimer();
-        
-        
-        
-        
-        
-
-        
     }
     
     public void actionPerformed(ActionEvent e) 
@@ -93,23 +100,6 @@ public class MakeGame implements ActionListener
     
     private void startTimer() {
         seconds = 0;
-
-        
-        timer = new Timer(1000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                
-                seconds++;
-
-                
-                timerLabel.setText(String.valueOf(seconds));
-
-                
-                
-            }
-        });
-
-        
         timer.start();
     }
     
@@ -141,7 +131,16 @@ public class MakeGame implements ActionListener
         
     }
     
-    
+    public void undo()
+    {
+        Move previousMove = operationNumsHistory.pop();
+        Button undoFirstButton = previousMove.getFirstButton();
+        Button undoSecondButton = previousMove.getSecondButton();
+        Button resultantButton = previousMove.getResultantNum();
+        f.add(undoFirstButton.getB());
+        f.add(undoSecondButton.getB());
+        resultantButton.getB().setVisible(false);
+    }
     public int doOperation()
     {
         Button n1 = button.getNum1();
@@ -153,6 +152,10 @@ public class MakeGame implements ActionListener
         int newValue = 0;
         int secondButtonRow;
         int secondButtonCol;
+        
+        
+        //Do I need to store operation?
+        
         if (oper.equals("+"))
         {
             newValue = Operations.add(opNum1,opNum2);
@@ -175,10 +178,20 @@ public class MakeGame implements ActionListener
         }
         
         
-        n1.getB().setVisible(false);
-        n2.getB().setVisible(false);
-        Button newNum = new Button(newValue,n2.getX(),n2.getY(),100,60);
-        f.add(newNum.getB());
-        return newValue;
+        
+        if (newValue > 0)
+        {
+            n1.getB().setVisible(false);
+            n2.getB().setVisible(false);
+            Button newNum = new Button(newValue,n2.getX(),n2.getY(),100,60);
+            f.add(newNum.getB());
+            currentMove = new Move(n1,n2,newNum);
+            operationNumsHistory.add(currentMove);
+            return newValue;
+        }
+        else
+        {
+            return opNum2;
+        }
     }
 }
