@@ -110,12 +110,12 @@ public class MakeGame implements ActionListener
         
         
         
-        Button plus = new Button("+",10,400,100,60,false);
-        Button minus = new Button("-",110,400,100,60,false);
-        Button times = new Button("*",210,400,100,60,false);
-        Button divide = new Button("/",310,400,100,60,false);
-        Button mod = new Button("%",410,400,100,60,false);
-        Button undo = new Button("↻",510,400,100,60,true);
+        Button plus = new Button("+",10,400,100,60);
+        Button minus = new Button("-",110,400,100,60);
+        Button times = new Button("*",210,400,100,60);
+        Button divide = new Button("/",310,400,100,60);
+        Button mod = new Button("%",410,400,100,60);
+        Button undo = new Button("↻",510,400,100,60);
         Button[] operations = {plus,minus,times,divide,mod,undo};
         
         
