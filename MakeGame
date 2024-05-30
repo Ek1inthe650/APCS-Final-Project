@@ -17,8 +17,15 @@ import java.util.Stack;
 public class MakeGame implements ActionListener 
 {
     private JFrame f = new JFrame();
-    JLabel timerLabel;
-    private Timer timer;
+    static JLabel timerLabel;
+    private static Timer timer = new Timer(1000, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) 
+                {
+                    seconds++;
+                    timerLabel.setText(String.valueOf(seconds));
+                }
+        });
     private static int seconds;
     private Button button = new Button();
     private int opNum1;
@@ -30,7 +37,7 @@ public class MakeGame implements ActionListener
     private Move currentMove;
     
     
-    public MakeGame(boolean newTimer)
+    public MakeGame()
     {
         f.setSize(620,500);
         f.setLayout(null);
@@ -46,17 +53,6 @@ public class MakeGame implements ActionListener
         UndoButton undo = new UndoButton(this);
         f.add(undo.getUndoButton());
         
-        if (newTimer)
-        {
-            timer = new Timer(1000, new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) 
-                {
-                    seconds++;
-                    timerLabel.setText(String.valueOf(seconds));
-                }
-        });
-        }
         startTimer();
     }
     
