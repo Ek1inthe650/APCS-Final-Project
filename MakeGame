@@ -18,14 +18,15 @@ public class MakeGame implements ActionListener
 {
     private JFrame f = new JFrame();
     static JLabel timerLabel;
-    private static Timer timer = new Timer(1000, new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) 
-                {
-                    seconds++;
-                    timerLabel.setText(String.valueOf(seconds));
-                }
-        });
+    private static Timer timer = new Timer(1000, new ActionListener() 
+    {
+        @Override
+        public void actionPerformed(ActionEvent e) 
+        {
+            seconds++;
+            timerLabel.setText(String.valueOf(seconds));
+        }
+    });
     private static int seconds;
     private Button button = new Button();
     private int opNum1;
@@ -35,37 +36,65 @@ public class MakeGame implements ActionListener
     private int targetNum;
     private Stack<Move> operationNumsHistory = new Stack<Move>();
     private Move currentMove;
+    GraphicsEnvironment graphics = GraphicsEnvironment.getLocalGraphicsEnvironment();
+    GraphicsDevice device = graphics.getDefaultScreenDevice();
+    JButton closeButton = new JButton("X");
+    JButton calc = new JButton("=");
+   
     
-    
-    public MakeGame()
+    public MakeGame(boolean newTimer)
     {
-        f.setSize(620,500);
+        //f.setSize(1500,1000);
         f.setLayout(null);
         f.setVisible(true);
         timerLabel = new JLabel();
-        timerLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        timerLabel.setBounds(560,10,200,90);
+        timerLabel.setFont(new Font("Arial", Font.BOLD, 48));
+        timerLabel.setBounds(1220,30,200,90);
         f.add(timerLabel);
-        JButton calc = new JButton("=");
-        calc.setBounds(10,30,100,60);
+        
+        calc.setBounds(100,40,200,120);
         calc.addActionListener(this);
+        calc.setFont(new Font("Arial", Font.PLAIN, 48));
         f.add(calc);
+        f.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+        device.setFullScreenWindow(f);
+        
+        closeButton.setBackground(Color.RED);
+        closeButton.setOpaque(true);
+        closeButton.setBounds(0, 0, 80, 40);
+        closeButton.addActionListener(this);
+        
+        closeButton.setBorder(null);
+        f.add(closeButton);
+        
         UndoButton undo = new UndoButton(this);
+        
         f.add(undo.getUndoButton());
+    
+        
         
         startTimer();
     }
     
     public void actionPerformed(ActionEvent e) 
     {
-        int result = doOperation();
-        button.reset();
-        if (result == targetNum)
+        if(e.getSource() == calc)
         {
-            EndScreen end = new EndScreen();
-            f.setVisible(false);
+            int result = doOperation();
+            button.reset();
+            if (result == targetNum)
+            {
+                EndScreen end = new EndScreen();
+                f.setVisible(false);
+                f.setDefaultLookAndFeelDecorated(false);
+            }
+        }
+        if(e.getSource() == closeButton)
+        {
+            f.dispose();
         }
     }
+    
     public Button getButton()
     {
         return button;
@@ -82,24 +111,28 @@ public class MakeGame implements ActionListener
     {
         return seconds;
     }
+    
+    
     public void makeNumbers()
     {
         Numbers numArray = new Numbers();
         int[][] arr = new int[2][3];
         arr = numArray.getNumbers();
-        Button b1 = new Button(arr[0][0],10,100,100,60);
-        Button b2 = new Button(arr[0][1],210,100,100,60);
-        Button b3 = new Button(arr[0][2],410,100,100,60);
-        Button b4 = new Button(arr[1][0],10,200,100,60);
-        Button b5 = new Button(arr[1][1],210,200,100,60);
-        Button b6 = new Button(arr[1][2],410,200,100,60);
+        Button b1 = new Button(arr[0][0],300,250,220,140);
+        Button b2 = new Button(arr[0][1],615,250,220,140);
+        Button b3 = new Button(arr[0][2],930,250,220,140);
+        Button b4 = new Button(arr[1][0],300,450,220,140);
+        Button b5 = new Button(arr[1][1],615,450,220,140);
+        Button b6 = new Button(arr[1][2],930,450,220,140);
         
         Button[] nums = {b1,b2,b3,b4,b5,b6};
         
         targetNum = numArray.getTarget();
         target = new JLabel(""+targetNum);
-        target.setFont(new Font("Arial", Font.BOLD, 24));
-        target.setBounds(290,10,200,90);
+        target.setFont(new Font("Arial", Font.BOLD, 72));
+        target.setBounds(615,30,200,90);
+        target.setHorizontalAlignment(JLabel.CENTER);
+        
         f.add(target);
         for (Button b: nums)
         {
@@ -112,23 +145,43 @@ public class MakeGame implements ActionListener
         timer.start();
     }
     
+    
+    
     public void makeOperations()
     {
-        Button plus = new Button("+",10,400,100,60);
-        Button minus = new Button("-",110,400,100,60);
-        Button times = new Button("*",210,400,100,60);
-        Button divide = new Button("/",310,400,100,60);
-        Button mod = new Button("%",410,400,100,60);
-        Button undo = new Button("↻",510,400,100,60);
-        Button[] operations = {plus,minus,times,divide,mod,undo};
+        
+        
+        
+        Button plus = new Button("+",35,700,220,140);
+        Button minus = new Button("-",265,700,220,140);
+        Button times = new Button("*",495,700,220,140);
+        Button divide = new Button("/",725,700,220,140);
+        Button mod = new Button("%",955,700,220,140);
+        Button[] operations = {plus,minus,times,divide,mod};
+        
+        
         
         for (Button b: operations)
         {
             f.add(b.getB());
         }
+        
+        
+        
+        
+        
     }
     
-    
+    public void undo()
+    {
+        Move previousMove = operationNumsHistory.pop();
+        Button undoFirstButton = previousMove.getFirstButton();
+        Button undoSecondButton = previousMove.getSecondButton();
+        Button resultantButton = previousMove.getResultantNum();
+        f.add(undoFirstButton.getB());
+        f.add(undoSecondButton.getB());
+        resultantButton.getB().setVisible(false);
+    }
     public int doOperation()
     {
         Button n1 = button.getNum1();
@@ -142,6 +195,7 @@ public class MakeGame implements ActionListener
         int secondButtonCol;
         
         
+        //Do I need to store operation?
         
         if (oper.equals("+"))
         {
@@ -170,7 +224,7 @@ public class MakeGame implements ActionListener
         {
             n1.getB().setVisible(false);
             n2.getB().setVisible(false);
-            Button newNum = new Button(newValue,n2.getX(),n2.getY(),100,60);
+            Button newNum = new Button(newValue,n2.getX(),n2.getY(),220,140);
             f.add(newNum.getB());
             currentMove = new Move(n1,n2,newNum);
             operationNumsHistory.add(currentMove);
@@ -178,6 +232,7 @@ public class MakeGame implements ActionListener
         }
         else
         {
+            button.reset();
             return opNum2;
         }
     }
