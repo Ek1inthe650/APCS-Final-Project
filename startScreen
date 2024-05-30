@@ -10,34 +10,59 @@ import java.awt.Color;
 import java.awt.event.*;
 import java.awt.*;
 import javax.swing.Timer;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 public class StartScreen implements ActionListener
 {
     private JFrame f;
     private JButton start;
     private JLabel text;
+    GraphicsEnvironment graphics = GraphicsEnvironment.getLocalGraphicsEnvironment();
+    GraphicsDevice device = graphics.getDefaultScreenDevice();
+    JButton closeButton = new JButton("X");
     
     public StartScreen()
     {
         f = new JFrame();
-        f.setSize(620,500);
+        f.setExtendedState(JFrame.MAXIMIZED_BOTH); 
         f.setLayout(null);
         f.setVisible(true);
         start = new JButton("Start");
-        start.setBounds(160, 200, 300,200);
+        start.setBounds(500, 400, 400,300);
         start.addActionListener(this);
+        start.setFont(new Font("Arial", Font.PLAIN, 48));
+        
         f.add(start);
         text = new JLabel("Operation Rush");
-        text.setFont(new Font("Poppins", Font.BOLD, 48));
-        text.setBounds(120, 50, 500,200);
+        text.setFont(new Font("Poppins", Font.BOLD, 96));
+        text.setBounds(320, 100, 2000,200);
+        
         f.add(text);
+        device.setFullScreenWindow(f);
+        closeButton.setBackground(Color.RED);
+        closeButton.setOpaque(true);
+        closeButton.setBounds(0, 0, 80, 40);
+        closeButton.addActionListener(this);
+        
+        closeButton.setBorder(null);
+        f.add(closeButton);
     }
     
     
     public void actionPerformed(ActionEvent e) 
     {
-        RunGame r = new RunGame();
-        r.run();
-        f.setVisible(false);
+        if(e.getSource() == start)
+        {
+            RunGame r = new RunGame();
+            r.run();
+            
+            f.setDefaultLookAndFeelDecorated(false);
+            f.setVisible(false);
+        }
+        if(e.getSource() == closeButton)
+        {
+            f.dispose();
+        }
 
     }
     
