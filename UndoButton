@@ -1,0 +1,47 @@
+
+/**
+ * Write a description of class UndoButton here.
+ *
+ * @author (your name)
+ * @version (a version number or a date)
+ */
+import javax.swing.*;
+import java.awt.Color;
+import java.util.Stack;
+import java.awt.event.*;
+import java.util.ArrayList;
+
+public class UndoButton extends Button implements ActionListener
+{
+    JButton undoButton;
+    MakeGame makeGame;
+    
+    public UndoButton(MakeGame makeGame)
+    {
+        undoButton = new JButton("↻");
+        undoButton.setBounds(510,400,100,60);
+        undoButton.addActionListener(this);
+        this.makeGame = makeGame;
+    }
+    public JButton getUndoButton()
+    {
+        return undoButton;
+    }
+    public void actionPerformed(ActionEvent e)
+    {
+        undo();
+    }
+    public void undo()
+    {
+        Move previousMove = makeGame.getHistory().pop();
+        Button undoFirstButton = previousMove.getFirstButton();
+        Button undoSecondButton = previousMove.getSecondButton();
+        Button resultantButton = previousMove.getResultantNum();
+        undoFirstButton.getB().setVisible(true);
+        undoSecondButton.getB().setVisible(true);
+        Button.getAllB().add(undoFirstButton);
+        Button.getAllB().add(undoSecondButton);
+        resultantButton.getB().setVisible(false);
+        makeGame.getButton().reset();
+    }
+}
