@@ -43,6 +43,8 @@ public class MakeGame implements ActionListener
         calc.setBounds(10,30,100,60);
         calc.addActionListener(this);
         f.add(calc);
+        UndoButton undo = new UndoButton(this);
+        f.add(undo.getUndoButton());
         
         if (newTimer)
         {
@@ -68,7 +70,18 @@ public class MakeGame implements ActionListener
             f.setVisible(false);
         }
     }
-    
+    public Button getButton()
+    {
+        return button;
+    }
+    public Stack<Move> getHistory()
+    {
+        return operationNumsHistory;
+    }
+    public JFrame getFrame()
+    {
+        return f;
+    }
     public static int getTime()
     {
         return seconds;
@@ -103,13 +116,8 @@ public class MakeGame implements ActionListener
         timer.start();
     }
     
-    
-    
     public void makeOperations()
     {
-        
-        
-        
         Button plus = new Button("+",10,400,100,60);
         Button minus = new Button("-",110,400,100,60);
         Button times = new Button("*",210,400,100,60);
@@ -118,29 +126,13 @@ public class MakeGame implements ActionListener
         Button undo = new Button("↻",510,400,100,60);
         Button[] operations = {plus,minus,times,divide,mod,undo};
         
-        
-        
         for (Button b: operations)
         {
             f.add(b.getB());
         }
-        
-        
-        
-        
-        
     }
     
-    public void undo()
-    {
-        Move previousMove = operationNumsHistory.pop();
-        Button undoFirstButton = previousMove.getFirstButton();
-        Button undoSecondButton = previousMove.getSecondButton();
-        Button resultantButton = previousMove.getResultantNum();
-        f.add(undoFirstButton.getB());
-        f.add(undoSecondButton.getB());
-        resultantButton.getB().setVisible(false);
-    }
+    
     public int doOperation()
     {
         Button n1 = button.getNum1();
@@ -154,7 +146,6 @@ public class MakeGame implements ActionListener
         int secondButtonCol;
         
         
-        //Do I need to store operation?
         
         if (oper.equals("+"))
         {
