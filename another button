@@ -1,0 +1,188 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.ArrayList;
+
+public class Button implements ActionListener {
+    private JButton b;
+    private int value;
+    private String label;
+    private boolean isNum;
+    private boolean isGreen = false;
+    private static boolean oneSelected = false;
+    private static boolean twoSelected = false;
+    private static boolean opSelected = false;
+    private static int numSelected = 0;
+    private static Button num1;
+    private static Button num2;
+    private static String op;
+    private int xVal;
+    private int yVal;
+    private static ArrayList<Button> allB = new ArrayList<Button>();
+
+    public Button() {}
+
+    public Button(String l, int x, int y, int width, int height) {
+        isNum = false;
+        label = l;
+        xVal = x;
+        yVal = y;
+        initButton(l, x, y, width, height);
+    }
+
+    public Button(int val, int x, int y, int width, int height) {
+        isNum = true;
+        value = val;
+        label = String.valueOf(val);
+        xVal = x;
+        yVal = y;
+        initButton(label, x, y, width, height);
+    }
+
+    private void initButton(String label, int x, int y, int width, int height) {
+        b = new JButton(label) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                if (getModel().isArmed()) {
+                    g.setColor(Color.LIGHT_GRAY);
+                } else {
+                    g.setColor(getBackground());
+                }
+                g.fillOval(0, 0, getWidth(), getHeight());
+                super.paintComponent(g);
+            }
+
+            @Override
+            protected void paintBorder(Graphics g) {
+                g.setColor(getForeground());
+                g.drawOval(0, 0, getWidth(), getHeight());
+            }
+
+            @Override
+            public boolean contains(int x, int y) {
+                int radius = getWidth() / 2;
+                int centerX = getWidth() / 2;
+                int centerY = getHeight() / 2;
+                return ((x - centerX) * (x - centerX) + (y - centerY) * (y - centerY)) <= radius * radius;
+            }
+        };
+        b.setBounds(x, y, width, height);
+        b.setContentAreaFilled(false);
+        b.setFocusPainted(false);
+        b.setOpaque(false);
+        b.setFont(new Font("Arial", Font.PLAIN, 48));
+        b.setHorizontalAlignment(JButton.CENTER);
+        b.addActionListener(this);
+        b.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                if (!isGreen) {
+                    b.setBackground(Color.CYAN);
+                }
+            }
+
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                if (!isGreen) {
+                    b.setBackground(UIManager.getColor("control"));
+                }
+            }
+        });
+        allB.add(this);
+    }
+
+    public static ArrayList<Button> getAllB() {
+        return allB;
+    }
+
+    public void setGreen() {
+        isGreen = false;
+    }
+
+    public int getVal() {
+        return value;
+    }
+
+    public String getOp() {
+        return op;
+    }
+
+    public Button getNum1() {
+        return num1;
+    }
+
+    public Button getNum2() {
+        return num2;
+    }
+
+    public JButton getB() {
+        return b;
+    }
+
+    public int getX() {
+        return xVal;
+    }
+
+    public int getY() {
+        return yVal;
+    }
+
+    public void reset() {
+        numSelected = 0;
+        oneSelected = false;
+        twoSelected = false;
+        num1 = null;
+        num2 = null;
+        opSelected = false;
+        op = null;
+        for (Button j : allB) {
+            j.getB().setBackground(UIManager.getColor("control"));
+            j.setGreen();
+        }
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        if (!isGreen && numSelected == 0 && isNum) {
+            b.setBackground(Color.GREEN);
+            b.setOpaque(true);
+            isGreen = true;
+            numSelected++;
+            num1 = this;
+            oneSelected = true;
+        } else if (!isGreen && numSelected == 1 && !isNum && !opSelected) {
+            b.setBackground(Color.GREEN);
+            b.setOpaque(true);
+            isGreen = true;
+            numSelected++;
+            opSelected = true;
+            op = label;
+        } else if (!isGreen && numSelected == 2 && isNum) {
+            b.setBackground(Color.GREEN);
+            b.setOpaque(true);
+            isGreen = true;
+            numSelected++;
+            num2 = this;
+            twoSelected = true;
+        } else if (isGreen && numSelected == 1 && isNum) {
+            b.setOpaque(false);
+            isGreen = false;
+            numSelected--;
+        } else if (isGreen && isNum) {
+            b.setOpaque(false);
+            isGreen = false;
+            numSelected--;
+        } else if (!isNum && opSelected && isGreen) {
+            opSelected = false;
+            b.setOpaque(false);
+            isGreen = false;
+            numSelected--;
+        }
+
+        if (num1 != null && value == num1.getVal()) {
+            oneSelected = false;
+        }
+        if (num2 != null && value == num2.getVal()) {
+            twoSelected = false;
+        }
+    }
+}
