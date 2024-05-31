@@ -42,7 +42,7 @@ public class MakeGame implements ActionListener
     JButton calc = new JButton("=");
    
     
-    public MakeGame(boolean newTimer)
+    public MakeGame()
     {
         //f.setSize(1500,1000);
         f.setLayout(null);
